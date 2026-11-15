@@ -24,20 +24,22 @@ public class TheaterServices {
 	
 	public ResponseEntity<ResponseStructure<Theater>> createTheaterAcoount(Theater theater) {
 		ResponseStructure<Theater> rs = new ResponseStructure<Theater>();
-		Theater th = theaterRepository.findBycontactNumber(theater.getContactNumber()).orElseThrow(() -> new TheaterAlreadyExistException());
+		if (theaterRepository.findBycontactNumber(theater.getContactNumber()).isPresent()) {
+		    throw new TheaterAlreadyExistException();
+		}
 		theater.setStatus("Closed");
-		theater.setAllPlayingShows(null);
+//		theater.setAllPlayingShows(null);
 		Address add = theater.getAddress();
 		if(add == null) {
 			System.out.println("add is null");
 		}else {
 			add = addressRepository.save(add);
 		}
-		Theater th = theaterRepository.save(theater);
-		th.setAddress(add);
+		Theater th1 = theaterRepository.save(theater);
+		th1.setAddress(add);
 		rs.setStatuscode(HttpStatus.CREATED.value());
 		rs.setMessage("Theater Created Successfully");
-		rs.setData(th);
+		rs.setData(th1);
 		return new ResponseEntity<ResponseStructure<Theater>>(rs, HttpStatus.CREATED);
 	}
 
