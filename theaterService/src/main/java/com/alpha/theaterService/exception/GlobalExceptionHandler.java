@@ -20,4 +20,14 @@ public class GlobalExceptionHandler {
 		
 		return new ResponseEntity<ResponseStructure<String>>(rs,HttpStatus.FOUND);
 	}
+	
+	@ExceptionHandler(TheaterNotFoundException.class)
+	public ResponseEntity<ResponseStructure<String>> TheaterNotFoundExceptionHandler() {
+		ResponseStructure<String> rs = new ResponseStructure<String>();
+		rs.setStatuscode(HttpStatus.NOT_FOUND.value());
+		rs.setMessage("Theater Not found");
+		rs.setData("Theater Not found");
+		
+		return new ResponseEntity<ResponseStructure<String>>(rs,HttpStatus.NOT_FOUND);
+	}
 }

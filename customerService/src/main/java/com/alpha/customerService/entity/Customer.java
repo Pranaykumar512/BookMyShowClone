@@ -1,5 +1,5 @@
-package com.alpha.customerService.entity;
 
+package com.alpha.customerService.entity;
 
 import jakarta.persistence.*;
 import java.util.List;
@@ -9,14 +9,14 @@ import java.util.List;
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
 
     private String mail;
 
-    private String phone;
+    private Long phone;  // Changed from String to Long
 
     private int age;
 
@@ -26,14 +26,12 @@ public class Customer {
                cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 
-    // No-argument constructor
     public Customer() {
     }
 
-    // Parameterized constructor
     public Customer(Long id, String name, String mail,
-            String phone, int age, String gender,
-            List<Ticket> tickets) {
+                    Long phone, int age, String gender,
+                    List<Ticket> tickets) {
 
         this.id = id;
         this.name = name;
@@ -43,8 +41,6 @@ public class Customer {
         this.gender = gender;
         this.tickets = tickets;
     }
-
-    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -70,11 +66,11 @@ public class Customer {
         this.mail = mail;
     }
 
-    public String getPhone() {
+    public Long getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(Long phone) {
         this.phone = phone;
     }
 
@@ -102,4 +98,3 @@ public class Customer {
         this.tickets = tickets;
     }
 }
-

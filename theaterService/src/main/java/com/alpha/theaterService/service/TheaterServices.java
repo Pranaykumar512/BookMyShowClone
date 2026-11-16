@@ -11,6 +11,7 @@ import com.alpha.theaterService.dto.ResponseStructure;
 import com.alpha.theaterService.entity.Address;
 import com.alpha.theaterService.entity.Theater;
 import com.alpha.theaterService.exception.TheaterAlreadyExistException;
+import com.alpha.theaterService.exception.TheaterNotFoundException;
 import com.alpha.theaterService.repo.AddressRepository;
 import com.alpha.theaterService.repo.TheaterRepository;
 
@@ -41,6 +42,27 @@ public class TheaterServices {
 		rs.setMessage("Theater Created Successfully");
 		rs.setData(th1);
 		return new ResponseEntity<ResponseStructure<Theater>>(rs, HttpStatus.CREATED);
+	}
+
+	public ResponseEntity<ResponseStructure<Theater>> findTheater(long id) {
+		
+		ResponseStructure<Theater> rs=new ResponseStructure<Theater>();
+		Theater theater=theaterRepository.findById(id).orElseThrow(()-> new TheaterNotFoundException());
+		rs.setStatuscode(HttpStatus.FOUND.value());
+		rs.setMessage("Theater Created Successfully");
+		rs.setData(theater);
+		return new ResponseEntity<ResponseStructure<Theater>>(rs, HttpStatus.FOUND);
+		
+	}
+
+	public ResponseEntity<ResponseStructure<Theater>> deleteTheaterById(long id) {
+		ResponseStructure<Theater> rs=new ResponseStructure<Theater>();
+		Theater theater=theaterRepository.findById(id).orElseThrow(()-> new TheaterNotFoundException());
+		theaterRepository.delete(theater);
+		rs.setStatuscode(HttpStatus.ACCEPTED.value());
+		rs.setMessage("Theater Deleted Successfully");
+		rs.setData(theater);
+		return new ResponseEntity<ResponseStructure<Theater>>(rs, HttpStatus.ACCEPTED);
 	}
 
 }
